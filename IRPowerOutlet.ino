@@ -1,7 +1,7 @@
 #include <IRLib.h>
 
 int RECV_PIN = 11;
-int RELAY_PIN = 12;
+int RELAY_PIN = 3;
 int RELAY_STATE = LOW;
 
 IRrecv My_Receiver(RECV_PIN);
