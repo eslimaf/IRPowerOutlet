@@ -1,8 +1,12 @@
 #include <IRLib.h>
 
-int RECV_PIN = 11;
-int RELAY_PIN = 3;
-int RELAY_STATE = LOW;
+unsigned int RECV_PIN = 11;
+unsigned int RELAY_PIN = 12;
+unsigned int RELAY_STATE = LOW;
+
+//Remote control button code
+#define RELAY_ON_OFF 0xE17ACC33
+#define SET_SLEEP_TIMER
 
 IRrecv My_Receiver(RECV_PIN);
 
@@ -26,7 +30,7 @@ void loop() {
     My_Decoder.decode();
     if(My_Decoder.decode_type == NEC){
       switch(My_Decoder.value) {
-        case 0xE17ACC33:
+        case RELAY_ON_OFF:
         if(RELAY_STATE == LOW) {
           digitalWrite(RELAY_PIN,HIGH);
           RELAY_STATE = HIGH;
