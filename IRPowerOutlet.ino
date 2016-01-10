@@ -1,12 +1,12 @@
 #include <IRLib.h>
 
-unsigned int RECV_PIN = 11;
-unsigned int RELAY_PIN = 12;
-unsigned int RELAY_STATE = LOW;
-
 //Remote control button code
 #define RELAY_ON_OFF 0xE17ACC33
 #define SET_SLEEP_TIMER
+
+const int RECV_PIN = 11;
+const int RELAY_PIN = 12;
+unsigned int RELAY_STATE = LOW;
 
 IRrecv My_Receiver(RECV_PIN);
 
@@ -23,6 +23,9 @@ void setup()
 }
 
 void loop() {
+
+  //TODO: Check if sleep timer has expired
+  
   if (My_Receiver.GetResults(&My_Decoder)) {
     //Restart the receiver so it can be capturing another code
     //while we are working on decoding this one.
@@ -31,14 +34,17 @@ void loop() {
     if(My_Decoder.decode_type == NEC){
       switch(My_Decoder.value) {
         case RELAY_ON_OFF:
-        if(RELAY_STATE == LOW) {
-          digitalWrite(RELAY_PIN,HIGH);
-          RELAY_STATE = HIGH;
-        } else {
-          digitalWrite(RELAY_PIN,LOW);
-          RELAY_STATE = LOW;
-        }
-        break;
+          if(RELAY_STATE == LOW) {
+            digitalWrite(RELAY_PIN,HIGH);
+            RELAY_STATE = HIGH;
+          } else {
+            digitalWrite(RELAY_PIN,LOW);
+            RELAY_STATE = LOW;
+          }
+          break;
+        case SET_SLEEP_TIMER:
+          //TODO: Set Sleep timer
+          break;
       }
     }
   }
